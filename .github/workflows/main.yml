@@ -154,14 +154,14 @@ jobs:
             [ -f "$f" ] && tweaks="$tweaks $f"
           done
           # Generate the IPA with the requested naming convention
-          cyan -i youtube.ipa -o YouTubePlus_${{ env.YT_VERSION }}_v${{ env.TWEAK_VERSION }}.ipa -uwef $tweaks -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
+          cyan -i youtube.ipa -o YouTubePlus_v${{ env.TWEAK_VERSION }}_${{ env.YT_VERSION }}.ipa -uwef $tweaks -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ytp-v${{ env.TWEAK_VERSION }}-${{ env.YT_VERSION }}
           name: YouTubePlus v${{ env.TWEAK_VERSION }} ${{ env.YT_VERSION }}
-          files: YouTubePlus_${{ env.YT_VERSION }}_v${{ env.TWEAK_VERSION }}.ipa
+          files: YouTubePlus_v${{ env.TWEAK_VERSION }}_${{ env.YT_VERSION }}.ipa
 
       - name: Output Release URL
         run: |
