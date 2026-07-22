@@ -140,9 +140,11 @@ jobs:
           unzip -q youtube.ipa -d ytextracted
           echo "YT_VERSION=$(grep -A 1 '<key>CFBundleVersion</key>' ytextracted/Payload/YouTube.app/Info.plist | grep '<string>' | awk -F'[><]' '{print $3}')" >> $GITHUB_ENV
           
-          # Install dpkg to read .deb metadata and extract the Tweak Version directly from the file
-          brew install dpkg
-          echo "TWEAK_VERSION=$(dpkg-deb -f ytplus.deb Version)" >> $GITHUB_ENV
+          # Extract Tweak Version from the tweak URL filename
+          tweak_url="${{ github.event.inputs.tweak_url }}"
+          clean_url="${tweak_url%%\?*}"
+          filename=$(basename "$clean_url")
+          echo "TWEAK_VERSION=$(echo "$filename" | cut -d'_' -f2)" >> $GITHUB_ENV
 
       - name: Install cyan
         run: pipx install --force https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
